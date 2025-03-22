@@ -75,19 +75,44 @@ namespace ADO.NET
 
 		public static void InsertDirector(string first_name, string last_name)
 		{
-			string cmd = $"INSERT Directors(first_name,last_name) VALUES(N'{first_name}',N'{last_name}')";
+			#region MyRegion
+			//string cmd = $"INSERT Directors(first_name,last_name) VALUES(N'{first_name}',N'{last_name}')";
+			//SqlCommand command = new SqlCommand(cmd, connection);
+			//connection.Open();
+			//command.ExecuteNonQuery();
+			//connection.Close(); 
+			#endregion
+			Insert("Directors", "first_name,last_name", $"N'{first_name}',N'{last_name}'");
+		}
+		public static void InsertMovie(string title, string release_date, string director)
+		{
+			Insert ("Movies", "title,release_date,director", $"N'{title}','{release_date}',{director}");
+		}
+		public static void Insert(string table, string columns, string values, string key = "")
+		{
+			if (key == "")
+			{
+				key = table.ToLower();
+				key = key.Remove(key.Length - 1, 1) + "_id";
+			}
+            Console.WriteLine(key);
+			string[] all_columns = columns.Split(',');
+			string[] all_values = values.Split(',');
+			string condition = "";
+			for (int i = 0; i < all_columns.Length; i++)
+			{
+				condition += $"{all_columns[i]}={all_values[i]}";
+				if (i != all_columns.Length - 1) condition += " AND ";
+			}
+			string check_string = $"IF NOT EXISTS (SELECT {key} FROM {table} WHERE {condition})";
+			string query = $"INSERT {table}({columns}) VALUES ({values})";
+
+			string cmd = $"{check_string} BEGIN {query} END";
+            Console.WriteLine(cmd);
 			SqlCommand command = new SqlCommand(cmd, connection);
 			connection.Open();
 			command.ExecuteNonQuery();
 			connection.Close();
-		}
-		//public static void InsertMovie(string title)
-		//{
-		//	string cmd = $"INSERT Movies(title) VALUES(N'{title}')";
-		//	SqlCommand command = new SqlCommand(cmd, connection);
-		//	connection.Open();
-		//	command.ExecuteNonQuery();
-		//	connection.Close();
-		//}
+        }
 	}
 }
