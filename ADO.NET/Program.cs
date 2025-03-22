@@ -64,7 +64,8 @@ namespace ADO.NET
 
 			//Connector.Select("*", "Directors");
 			//Connector.Select("title,release_date,FORMATMESSAGE(N'%s %s',first_name,last_name)", "Movies,Directors", "director=director_id");
-			Connector.InsertDirector("George","Martin");
+			//Connector.InsertDirector("George","Martin");
+			//Connector.InsertMovie("Game of Thrones");
 			Connector.SelectDirectors();
 			Connector.SelectMovies();
 		}

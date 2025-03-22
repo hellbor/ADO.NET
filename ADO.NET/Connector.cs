@@ -81,5 +81,13 @@ namespace ADO.NET
 			command.ExecuteNonQuery();
 			connection.Close();
 		}
+		//public static void InsertMovie(string title)
+		//{
+		//	string cmd = $"INSERT Movies(title) VALUES(N'{title}')";
+		//	SqlCommand command = new SqlCommand(cmd, connection);
+		//	connection.Open();
+		//	command.ExecuteNonQuery();
+		//	connection.Close();
+		//}
 	}
 }
