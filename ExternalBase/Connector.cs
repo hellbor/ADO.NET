@@ -47,5 +47,59 @@ namespace ExternalBase
 			reader.Close();
 			connection.Close();
 		}
+		public static int DisciplineID(string discipline_name)
+		{
+			int discipline_id = 0;
+			try
+			{
+				string cmd = $"SELECT discipline_id FROM Disciplines WHERE discipline_name LIKE N'%{discipline_name}%'";
+				connection.Open();
+				SqlCommand command = new SqlCommand(cmd, connection);
+				SqlDataReader reader = command.ExecuteReader();
+				if (reader.Read())
+				{
+					discipline_id = (Int16)reader["discipline_id"];
+				}
+				connection.Close();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+			return discipline_id;
+		}
+		public static int TeacherID(string last_name)
+		{
+			int teacher_id = 0;
+			try
+			{
+				string cmd = $"SELECT teacher_id FROM Teachers WHERE last_name LIKE N'%{last_name}%'";
+				connection.Open();
+
+				SqlCommand command = new SqlCommand(cmd, connection);
+				SqlDataReader reader = command.ExecuteReader();
+				if (reader.Read())
+				{
+					teacher_id = (Int16)reader["teacher_id"];
+				}
+
+				connection.Close();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+			return teacher_id;
+		}
+		public static int Count(string table) 
+		{
+			int count = 0;
+			string cmd = $"SELECT COUNT(*) FROM {table}";
+			SqlCommand command = new SqlCommand(cmd, connection);
+			connection.Open();
+			count = Convert.ToInt32(command.ExecuteScalar());
+			connection.Close();
+			return count;
+		}
 	}
 }

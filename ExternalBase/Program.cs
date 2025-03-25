@@ -15,6 +15,12 @@ namespace ExternalBase
 		static void Main(string[] args)
 		{
 			Connector.Select("*", "Disciplines");
+			Console.WriteLine("---------------------------------------------------------");
+			Connector.Select("*", "Teachers");
+			Console.WriteLine("---------------------------------------------------------");
+			Console.WriteLine(Connector.DisciplineID("Системное программирование"));
+            Console.WriteLine(Connector.TeacherID("Ковтун"));
+			Console.WriteLine(Connector.Count("Students"));
 		}
 	}
 }
