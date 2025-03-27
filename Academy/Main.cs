@@ -15,17 +15,27 @@ namespace Academy
 {
 	public partial class Main : Form
 	{
+		Connector connector;
 		public Main()
 		{
 			InitializeComponent();
 
-			Connector connector = new Connector
+			connector = new Connector
 				(
 					ConfigurationManager.ConnectionStrings["PV_319_Import"].ConnectionString
 				);
+
 			//dgv - DataGridView
 			dgvStudents.DataSource = connector.Select("*", "Students");
-			//tabPageGroups.DataSource = connector.Select("*", "Groups");
+			dgvGroups.DataSource = connector.Select("*", "Groups");
+			dgvDirections.DataSource = connector.Select("*", "Directions");
+			dgvDisciplines.DataSource = connector.Select("*", "Disciplines");
+			dgvTeachers.DataSource = connector.Select("*", "Teachers");
+		}
+
+		private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
 		}
 	}
 }
