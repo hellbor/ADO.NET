@@ -40,6 +40,8 @@
 			this.dgvDirections = new System.Windows.Forms.DataGridView();
 			this.dgvDisciplines = new System.Windows.Forms.DataGridView();
 			this.dgvTeachers = new System.Windows.Forms.DataGridView();
+			this.toolStripStatusLabelCount = new System.Windows.Forms.ToolStripStatusLabel();
+			this.statusStrip1.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabPageStudents.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgvStudents)).BeginInit();
@@ -55,6 +57,8 @@
 			// 
 			// statusStrip1
 			// 
+			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabelCount});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 419);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(800, 22);
@@ -92,10 +96,11 @@
 			this.dgvStudents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.dgvStudents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dgvStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dgvStudents.Location = new System.Drawing.Point(0, 48);
+			this.dgvStudents.Location = new System.Drawing.Point(0, 30);
 			this.dgvStudents.Name = "dgvStudents";
-			this.dgvStudents.Size = new System.Drawing.Size(792, 345);
+			this.dgvStudents.Size = new System.Drawing.Size(792, 363);
 			this.dgvStudents.TabIndex = 0;
 			// 
 			// tabPageGroups
@@ -147,10 +152,11 @@
 			this.dgvGroups.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.dgvGroups.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dgvGroups.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dgvGroups.Location = new System.Drawing.Point(0, 47);
+			this.dgvGroups.Location = new System.Drawing.Point(0, 30);
 			this.dgvGroups.Name = "dgvGroups";
-			this.dgvGroups.Size = new System.Drawing.Size(792, 346);
+			this.dgvGroups.Size = new System.Drawing.Size(792, 363);
 			this.dgvGroups.TabIndex = 0;
 			// 
 			// dgvDirections
@@ -158,10 +164,11 @@
 			this.dgvDirections.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.dgvDirections.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dgvDirections.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dgvDirections.Location = new System.Drawing.Point(0, 46);
+			this.dgvDirections.Location = new System.Drawing.Point(0, 30);
 			this.dgvDirections.Name = "dgvDirections";
-			this.dgvDirections.Size = new System.Drawing.Size(792, 347);
+			this.dgvDirections.Size = new System.Drawing.Size(792, 363);
 			this.dgvDirections.TabIndex = 0;
 			// 
 			// dgvDisciplines
@@ -169,10 +176,11 @@
 			this.dgvDisciplines.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.dgvDisciplines.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dgvDisciplines.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dgvDisciplines.Location = new System.Drawing.Point(0, 46);
+			this.dgvDisciplines.Location = new System.Drawing.Point(0, 30);
 			this.dgvDisciplines.Name = "dgvDisciplines";
-			this.dgvDisciplines.Size = new System.Drawing.Size(792, 347);
+			this.dgvDisciplines.Size = new System.Drawing.Size(792, 363);
 			this.dgvDisciplines.TabIndex = 0;
 			// 
 			// dgvTeachers
@@ -180,11 +188,18 @@
 			this.dgvTeachers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.dgvTeachers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dgvTeachers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dgvTeachers.Location = new System.Drawing.Point(0, 48);
+			this.dgvTeachers.Location = new System.Drawing.Point(0, 32);
 			this.dgvTeachers.Name = "dgvTeachers";
-			this.dgvTeachers.Size = new System.Drawing.Size(792, 345);
+			this.dgvTeachers.Size = new System.Drawing.Size(792, 361);
 			this.dgvTeachers.TabIndex = 0;
+			// 
+			// toolStripStatusLabelCount
+			// 
+			this.toolStripStatusLabelCount.Name = "toolStripStatusLabelCount";
+			this.toolStripStatusLabelCount.Size = new System.Drawing.Size(145, 17);
+			this.toolStripStatusLabelCount.Text = "toolStripStatusLabelCount";
 			// 
 			// Main
 			// 
@@ -197,6 +212,8 @@
 			this.Name = "Main";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Academy";
+			this.statusStrip1.ResumeLayout(false);
+			this.statusStrip1.PerformLayout();
 			this.tabControl.ResumeLayout(false);
 			this.tabPageStudents.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dgvStudents)).EndInit();
@@ -227,6 +244,7 @@
 		private System.Windows.Forms.DataGridView dgvDirections;
 		private System.Windows.Forms.DataGridView dgvDisciplines;
 		private System.Windows.Forms.DataGridView dgvTeachers;
+		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCount;
 	}
 }
 
