@@ -34,7 +34,7 @@
 			this.tabPageStudents = new System.Windows.Forms.TabPage();
 			this.dgvStudents = new System.Windows.Forms.DataGridView();
 			this.tabPageGroups = new System.Windows.Forms.TabPage();
-			this.cbGroups = new System.Windows.Forms.ComboBox();
+			this.cbGroupsDirection = new System.Windows.Forms.ComboBox();
 			this.dgvGroups = new System.Windows.Forms.DataGridView();
 			this.tabPageDirections = new System.Windows.Forms.TabPage();
 			this.dgvDirections = new System.Windows.Forms.DataGridView();
@@ -112,7 +112,7 @@
 			// 
 			// tabPageGroups
 			// 
-			this.tabPageGroups.Controls.Add(this.cbGroups);
+			this.tabPageGroups.Controls.Add(this.cbGroupsDirection);
 			this.tabPageGroups.Controls.Add(this.dgvGroups);
 			this.tabPageGroups.Location = new System.Drawing.Point(4, 22);
 			this.tabPageGroups.Name = "tabPageGroups";
@@ -122,27 +122,15 @@
 			this.tabPageGroups.Text = "Groups";
 			this.tabPageGroups.UseVisualStyleBackColor = true;
 			// 
-			// cbGroups
+			// cbGroupsDirection
 			// 
-			this.cbGroups.FormattingEnabled = true;
-			this.cbGroups.Items.AddRange(new object[] {
-            "Разработка программного обеспечения",
-            "Сетевые технологии и системное администрирование",
-            "Компьютерная графика и дизайн",
-            "Java development",
-            "C++ Development",
-            "Python development",
-            "GameDev",
-            "Android development",
-            ".NET Development",
-            "WebDev",
-            "Al"});
-			this.cbGroups.Location = new System.Drawing.Point(3, 3);
-			this.cbGroups.Name = "cbGroups";
-			this.cbGroups.Size = new System.Drawing.Size(422, 21);
-			this.cbGroups.TabIndex = 1;
-			this.cbGroups.SelectedIndexChanged += new System.EventHandler(this.cbGroups_SelectedIndexChanged);
-			this.cbGroups.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbGroups_MouseClick);
+			this.cbGroupsDirection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cbGroupsDirection.FormattingEnabled = true;
+			this.cbGroupsDirection.Location = new System.Drawing.Point(395, 6);
+			this.cbGroupsDirection.Name = "cbGroupsDirection";
+			this.cbGroupsDirection.Size = new System.Drawing.Size(391, 21);
+			this.cbGroupsDirection.TabIndex = 1;
+			this.cbGroupsDirection.SelectedIndexChanged += new System.EventHandler(this.cbGroupsDirection_SelectedIndexChanged);
 			// 
 			// dgvGroups
 			// 
@@ -151,9 +139,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.dgvGroups.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dgvGroups.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dgvGroups.Location = new System.Drawing.Point(0, 30);
+			this.dgvGroups.Location = new System.Drawing.Point(0, 33);
 			this.dgvGroups.Name = "dgvGroups";
-			this.dgvGroups.Size = new System.Drawing.Size(792, 363);
+			this.dgvGroups.Size = new System.Drawing.Size(792, 360);
 			this.dgvGroups.TabIndex = 0;
 			// 
 			// tabPageDirections
@@ -269,7 +257,7 @@
 		private System.Windows.Forms.DataGridView dgvDisciplines;
 		private System.Windows.Forms.DataGridView dgvTeachers;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCount;
-		private System.Windows.Forms.ComboBox cbGroups;
+		private System.Windows.Forms.ComboBox cbGroupsDirection;
 	}
 }
 
