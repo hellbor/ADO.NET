@@ -29,12 +29,13 @@ namespace Academy
 		{
 			FreeConsole();
 		}
-		public DataTable Select(string columns, string tables, string condicion = "")
+		public DataTable Select(string columns, string tables, string condicion = "", string group_by = "")
 		{
 			DataTable table = null;
 
 			string cmd = $"SELECT {columns} FROM {tables}";
 			if (condicion != "") cmd += $" WHERE {condicion}";
+			if (group_by != "") cmd += $" GROUP BY {group_by}";
 			cmd += ";";
 			SqlCommand command = new SqlCommand(cmd, connection);
 			connection.Open();
