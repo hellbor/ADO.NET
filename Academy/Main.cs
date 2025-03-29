@@ -9,17 +9,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using System.Management;
 using System.Configuration;
+
 
 namespace Academy
 {
-	public partial class Main : Form
+	public partial class Group : Form
 	{
 		Connector connector;
-		public Main()
+		public Group()
 		{
 			InitializeComponent();
+
+			//cbGroups.MouseClick += cbGroups_MouseClick;
+			//cbGroups.SelectedIndexChanged += cbGroups_SelectedIndexChanged;
 
 			connector = new Connector
 				(
@@ -60,14 +63,28 @@ namespace Academy
 				case 1:
 					dgvGroups.DataSource = connector.Select
 						(
-							"group_name,dbo.GetLearningDaysFor(group_name) AS weekdays,start_time,direction_name", 
+							"group_name,dbo.GetLearningDaysFor(group_name) AS weekdays,start_time,direction_name",
 							"Groups,Directions",
 							"direction=direction_id"
 						);
 					toolStripStatusLabelCount.Text = $"количество групп:{dgvGroups.RowCount - 1}.";
 					break;
 				case 2:
-					dgvDirections.DataSource = connector.Select("*", "Directions");
+					//dgvDirections.DataSource = connector.Select
+					//	(
+					//		"direction_name,COUNT(DISTINCT group_id) AS N'Количество групп', COUNT(stud_id) AS 'Количество студентов'",
+					//		"Students,Directions,Groups",
+					//		"[group]=group_id AND direction=direction_id",
+					//		"direction_name"
+					//	);
+					dgvDirections.DataSource = connector.Select
+						(
+							"direction_name,COUNT(DISTINCT group_id) AS N'Количество групп', COUNT(stud_id) AS 'Количество студентов'",
+							"Students RIGHT JOIN Groups ON([group]=group_id) RIGHT JOIN Directions ON(direction=direction_id)",
+							"",
+							"direction_name"
+						);
+
 					toolStripStatusLabelCount.Text = $"количество направлений:{dgvDirections.RowCount - 1}.";
 					break;
 				case 3:
@@ -79,6 +96,16 @@ namespace Academy
 					toolStripStatusLabelCount.Text = $"количество преподавателей:{dgvTeachers.RowCount - 1}.";
 					break;
 			}
+
 		}
+		private void cbGroups_MouseClick(object sender, MouseEventArgs e)
+		{
+			
+		}
+		private void cbGroups_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
+
 	}
 }
