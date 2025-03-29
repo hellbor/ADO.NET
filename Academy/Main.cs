@@ -54,8 +54,7 @@ namespace Academy
 			switch (tabControl.SelectedIndex)
 			{
 				case 0:
-					dgvStudents.DataSource =
-						connector.Select
+					dgvStudents.DataSource = connector.Select
 						(
 							"last_name,first_name,middle_name,birth_date,group_name,direction_name",
 							"Students,Groups,Directions",
