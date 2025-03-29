@@ -1,6 +1,6 @@
 ﻿namespace Academy
 {
-	partial class Group
+	partial class Main
 	{
 		/// <summary>
 		/// Required designer variable.
