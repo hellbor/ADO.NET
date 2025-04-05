@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Windows.Forms.VisualStyles;
 
 namespace AcademyDataSet
 {
@@ -126,16 +127,26 @@ namespace AcademyDataSet
 		}
 		void Print(string table)
 		{
-            Console.WriteLine("\n-------------------------------------------------------------------\n");
+            Console.WriteLine("\n---------------------------------------------------------\n");
+            Console.WriteLine(hasParents(table));
             foreach (DataRow row in GroupsRelatedData.Tables[table].Rows)
 			{
-				for (int i = 0; i < row.ItemArray.Length; i++)
+                Console.WriteLine(hasParents(table));
+                for (int i = 0; i < row.ItemArray.Length; i++)
 				{
 					Console.Write(row[i].ToString() + "\t");
 				}
                 Console.WriteLine();
             }
-            Console.WriteLine("\n-------------------------------------------------------------------\n");
+            Console.WriteLine("\n---------------------------------------------------------\n");
+		}
+		bool hasParents(string table) 
+		{
+			for (int i = 0; i < GroupsRelatedData.Relations.Count; i++)
+			{
+				if (GroupsRelatedData.Relations[i].ChildTable.TableName == table) return true;
+			}
+            return false;
 		}
 		void Check()
 		{
