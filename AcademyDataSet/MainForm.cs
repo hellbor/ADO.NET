@@ -32,11 +32,11 @@ namespace AcademyDataSet
 		void LoadGroupsRelatedData()
 		{
             Console.WriteLine(nameof(GroupsRelatedData));
+
 			//1) Создаем 'DataSet':
             GroupsRelatedData = new DataSet(nameof(GroupsRelatedData));
 
 			//2) Добавляем таблицы в 'DataSet':
-
 			const string dsTable_Directions = "Directions";
 			const string dst_col_direction_id = "direction_id";
 			const string dst_col_direction_name = "direction_name";
