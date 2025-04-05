@@ -62,9 +62,9 @@ namespace AcademyDataSet
 			string dsRelation_GroupDirections = "GroupDirections";
 			GroupsRelatedData.Relations.Add
 				(
-				dsRelation_GroupDirections, //Relation name
-				GroupsRelatedData.Tables[dsTable_Directions].Columns["direction_id"], //Parent field (Primary key)
-				GroupsRelatedData.Tables[dsTable_Groups].Columns["direction"]         //Child field (Foreign key)
+					dsRelation_GroupDirections, //Relation name
+					GroupsRelatedData.Tables[dsTable_Directions].Columns["direction_id"], //Parent field (Primary key)
+					GroupsRelatedData.Tables[dsTable_Groups].Columns["direction"]         //Child field (Foreign key)
 				);
 			//4) Загружаем данные в таблицы:
 			string directions_cmd	= "SELECT * FROM Directions";
