@@ -39,11 +39,14 @@
 			this.cbGroupsDirection = new System.Windows.Forms.ComboBox();
 			this.dgvGroups = new System.Windows.Forms.DataGridView();
 			this.tabPageDirections = new System.Windows.Forms.TabPage();
+			this.cbAllDirections = new System.Windows.Forms.CheckBox();
+			this.cbEmptyDirections = new System.Windows.Forms.CheckBox();
 			this.dgvDirections = new System.Windows.Forms.DataGridView();
 			this.tabPageDisciplines = new System.Windows.Forms.TabPage();
 			this.dgvDisciplines = new System.Windows.Forms.DataGridView();
 			this.tabPageTeachers = new System.Windows.Forms.TabPage();
 			this.dgvTeachers = new System.Windows.Forms.DataGridView();
+			this.cbFilledDirection = new System.Windows.Forms.CheckBox();
 			this.statusStrip1.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabPageStudents.SuspendLayout();
@@ -169,6 +172,9 @@
 			// 
 			// tabPageDirections
 			// 
+			this.tabPageDirections.Controls.Add(this.cbFilledDirection);
+			this.tabPageDirections.Controls.Add(this.cbAllDirections);
+			this.tabPageDirections.Controls.Add(this.cbEmptyDirections);
 			this.tabPageDirections.Controls.Add(this.dgvDirections);
 			this.tabPageDirections.Location = new System.Drawing.Point(4, 22);
 			this.tabPageDirections.Name = "tabPageDirections";
@@ -177,6 +183,28 @@
 			this.tabPageDirections.TabIndex = 2;
 			this.tabPageDirections.Text = "Directions";
 			this.tabPageDirections.UseVisualStyleBackColor = true;
+			// 
+			// cbAllDirections
+			// 
+			this.cbAllDirections.AutoSize = true;
+			this.cbAllDirections.Location = new System.Drawing.Point(8, 7);
+			this.cbAllDirections.Name = "cbAllDirections";
+			this.cbAllDirections.Size = new System.Drawing.Size(165, 17);
+			this.cbAllDirections.TabIndex = 2;
+			this.cbAllDirections.Text = "Показать все направления";
+			this.cbAllDirections.UseVisualStyleBackColor = true;
+			this.cbAllDirections.Click += new System.EventHandler(this.cbAllDirections_Click);
+			// 
+			// cbEmptyDirections
+			// 
+			this.cbEmptyDirections.AutoSize = true;
+			this.cbEmptyDirections.Location = new System.Drawing.Point(400, 7);
+			this.cbEmptyDirections.Name = "cbEmptyDirections";
+			this.cbEmptyDirections.Size = new System.Drawing.Size(183, 17);
+			this.cbEmptyDirections.TabIndex = 1;
+			this.cbEmptyDirections.Text = "Показать пустые направления";
+			this.cbEmptyDirections.UseVisualStyleBackColor = true;
+			this.cbEmptyDirections.Click += new System.EventHandler(this.cbEmptyDirections_Click);
 			// 
 			// dgvDirections
 			// 
@@ -236,6 +264,17 @@
 			this.dgvTeachers.Size = new System.Drawing.Size(792, 361);
 			this.dgvTeachers.TabIndex = 0;
 			// 
+			// cbFilledDirection
+			// 
+			this.cbFilledDirection.AutoSize = true;
+			this.cbFilledDirection.Location = new System.Drawing.Point(179, 6);
+			this.cbFilledDirection.Name = "cbFilledDirection";
+			this.cbFilledDirection.Size = new System.Drawing.Size(215, 17);
+			this.cbFilledDirection.TabIndex = 3;
+			this.cbFilledDirection.Text = "Показать заполненные направления";
+			this.cbFilledDirection.UseVisualStyleBackColor = true;
+			this.cbFilledDirection.Click += new System.EventHandler(this.cbFilledDirection_Click);
+			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -255,6 +294,7 @@
 			this.tabPageGroups.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dgvGroups)).EndInit();
 			this.tabPageDirections.ResumeLayout(false);
+			this.tabPageDirections.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgvDirections)).EndInit();
 			this.tabPageDisciplines.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dgvDisciplines)).EndInit();
@@ -283,6 +323,9 @@
 		private System.Windows.Forms.ComboBox cbGroupsDirection;
 		private System.Windows.Forms.ComboBox cbStudentsDirection;
 		private System.Windows.Forms.ComboBox cbStudentsGroup;
+		private System.Windows.Forms.CheckBox cbEmptyDirections;
+		private System.Windows.Forms.CheckBox cbAllDirections;
+		private System.Windows.Forms.CheckBox cbFilledDirection;
 	}
 }
 

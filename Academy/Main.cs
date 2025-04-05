@@ -47,7 +47,7 @@ namespace Academy
 			new Query("*", "Teachers")
 		};
 
-		string[] status_messagess = new string[]
+		string[] status_messages = new string[]
 		{
 			$"Количество студентов: ",
 			$"Количество групп: ",
@@ -104,9 +104,9 @@ namespace Academy
 		}
 		void LoadPage(int i, Query query = null)
 		{
-			if(query==null)query = queries[i];
+			if (query == null) query = queries[i];
 			tables[i].DataSource = connector.Select(query.Columns, query.Tables, query.Condition, query.Group_by);
-			toolStripStatusLabelCount.Text = status_messagess[i] + CountRecordsInDGV(tables[i]);
+			toolStripStatusLabelCount.Text = status_messages[i] + CountRecordsInDGV(tables[i]);
 		}
 		private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -165,12 +165,12 @@ namespace Academy
 
 		private void cbGroupsDirection_SelectedIndexChanged(object sender, EventArgs e)
 		{
-					dgvGroups.DataSource = connector.Select
-					(
-						"group_name,dbo.GetLearningDaysFor(group_name) AS weekdays,start_time,direction_name",
-						"Groups,Directions",
-						$"direction=direction_id AND direction = N'{d_directions[cbGroupsDirection.SelectedItem.ToString()]}'"
-					);
+			dgvGroups.DataSource = connector.Select
+			(
+				"group_name,dbo.GetLearningDaysFor(group_name) AS weekdays,start_time,direction_name",
+				"Groups,Directions",
+				$"direction=direction_id AND direction = N'{d_directions[cbGroupsDirection.SelectedItem.ToString()]}'"
+			);
 			toolStripStatusLabelCount.Text = $"Количество групп: {CountRecordsInDGV(dgvGroups)}.";
 		}
 		int CountRecordsInDGV(DataGridView dgv)
@@ -198,9 +198,46 @@ namespace Academy
 			//		i == 0 || cbStudentsDirection.SelectedItem == null ? "" : $"direction={ d_directions[cbGroupsDirection.SelectedItem.ToString()]}"
 			//		);
 			Query query = new Query(queries[0]);
-			query.Condition = 
+			query.Condition =
 				(i == 0 || cbStudentsDirection.SelectedItem == null ? "" : $"direction={d_directions[cbGroupsDirection.SelectedItem.ToString()]}");
 			LoadPage(0, query);
+		}
+		private void cbEmptyDirections_Click(object sender, EventArgs e)
+		{
+			int i = cbStudentsDirection.SelectedIndex;
+			dgvDirections.DataSource = connector.Select
+				(
+					"direction_name, COUNT(DISTINCT group_id) AS group_count, " +
+					"COUNT(stud_id) AS student_count",
+					"Students RIGHT JOIN Groups ON ([group]=group_id) " +
+					"RIGHT JOIN Directions ON (direction=direction_id)",
+					"",
+					"direction_name HAVING COUNT(DISTINCT group_id) = 0 AND COUNT(stud_id) = 0"
+				);
+			toolStripStatusLabelCount.Text = $"Количество пустых направлений: {CountRecordsInDGV(dgvDirections)}";
+		}
+
+		private void cbAllDirections_Click(object sender, EventArgs e)
+		{
+			int i = tabControl.SelectedIndex;
+			Query query = queries[i];
+			dgvDirections.DataSource = connector.Select(query.Columns, query.Tables, query.Condition, query.Group_by);
+			toolStripStatusLabelCount.Text = status_messages[i] + CountRecordsInDGV(dgvDirections);
+		}
+
+		private void cbFilledDirection_Click(object sender, EventArgs e)
+		{
+			dgvDirections.DataSource = connector.Select
+				(
+					"direction_name, COUNT(DISTINCT group_id) AS group_count, " +
+					"COUNT(stud_id) AS student_count",
+					"Students RIGHT JOIN Groups ON ([group]=group_id) " +
+					"RIGHT JOIN Directions ON (direction=direction_id)",
+					"",
+					"direction_name HAVING COUNT(DISTINCT group_id) > 0 AND COUNT(stud_id) > 0"
+				);
+
+			toolStripStatusLabelCount.Text = $"Количество заполненных направлений: {CountRecordsInDGV(dgvDirections)}";
 		}
 	}
 }
