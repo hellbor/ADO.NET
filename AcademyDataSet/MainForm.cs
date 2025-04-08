@@ -142,11 +142,13 @@ namespace AcademyDataSet
 		}
 		bool hasParents(string table) 
 		{
-			for (int i = 0; i < GroupsRelatedData.Relations.Count; i++)
+
+			return GroupsRelatedData.Tables[table].ParentRelations.Count > 0;
+			/*for (int i = 0; i < GroupsRelatedData.Relations.Count; i++)
 			{
 				if (GroupsRelatedData.Relations[i].ChildTable.TableName == table) return true;
 			}
-            return false;
+            return false;*/
 		}
 		void Check()
 		{
