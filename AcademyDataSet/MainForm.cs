@@ -222,7 +222,7 @@ namespace AcademyDataSet
 
 		private void cbDirections_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			Console.WriteLine(GroupsRelatedData.Tables["Directions"].ChildRelations);
+			//Console.WriteLine(GroupsRelatedData.Tables["Directions"].ChildRelations);
 			//DataRow row = GroupsRelatedData.Tables["Directions"].Rows.Find(cbDirections.SelectedValue);
 			//cbGroups.DataSource = row.GetChildRows("GroupsDirections");
 			//cbGroups.DisplayMember = "group_name";
