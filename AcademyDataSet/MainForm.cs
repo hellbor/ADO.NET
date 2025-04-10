@@ -21,6 +21,8 @@ namespace AcademyDataSet
 		SqlConnection connection;
 		DataSet GroupsRelatedData;
 		List<string> tables;
+		List<string> commands;
+
 		public MainForm()
 		{
 			InitializeComponent();
@@ -41,10 +43,10 @@ namespace AcademyDataSet
 			for (int i = 0; i < separeted_columns.Length; i++)
 			{
 				GroupsRelatedData.Tables[table].Columns.Add(separeted_columns[i]);
-				GroupsRelatedData.Tables[table].PrimaryKey =
-					new DataColumn[] { GroupsRelatedData.Tables[table].Columns[separeted_columns[0]] };
-				tables.Add($"{table},{columns}");
 			}
+			GroupsRelatedData.Tables[table].PrimaryKey =
+				new DataColumn[] { GroupsRelatedData.Tables[table].Columns[separeted_columns[0]] };
+			tables.Add($"{table},{columns}");
 		}
 		public void AddRelation(string name, string child, string parent)
 		{
@@ -60,7 +62,15 @@ namespace AcademyDataSet
 			string[] tables = this.tables.ToArray();
 			for (int i = 0; i < tables.Length; i++)
 			{
-				string cmd = $"SELECT * FROM {tables[i].Split(',')[0]}";
+				string columns = "";
+				DataColumnCollection column_collection = GroupsRelatedData.Tables[tables[i].Split(',')[0]].Columns;
+				foreach (DataColumn column in column_collection)
+				{
+					columns += $"[{column.ColumnName}],";
+				}
+				columns = columns.Remove(columns.LastIndexOf(','));
+				Console.WriteLine(columns);
+				string cmd = $"SELECT {columns} FROM {tables[i].Split(',')[0]}";
 				SqlDataAdapter adapter = new SqlDataAdapter(cmd, connection);
 				adapter.Fill(GroupsRelatedData.Tables[tables[i].Split(',')[0]]);
 			}
@@ -141,7 +151,7 @@ namespace AcademyDataSet
 				Console.WriteLine(parent_table_name);
 				//DataColumn parent_column = GroupsRelatedData.Tables[parent_table_name].Columns["direction_name"];
 				//Console.WriteLine(parent_column.ColumnName);
-				parent_index = 
+				parent_index =
 					GroupsRelatedData.Tables[table].Columns.
 					IndexOf(parent_table_name.ToLower().Substring(0, parent_table_name.Length - 1));
 				Console.WriteLine(parent_index);
