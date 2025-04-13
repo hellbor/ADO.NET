@@ -23,6 +23,14 @@ namespace AcademyDataSet
 			InitializeComponent();
 			AllocConsole();
 
+			UpdateTimer();
+
+			timer1.Interval = 5000; // 5 секунд
+			timer1.Tick += timer1_Tick;
+			timer1.Start();
+		}
+		void UpdateTimer()
+		{
 			GroupsRelatedData = new Cache();
 			GroupsRelatedData.AddTable("Directions", "direction_id,direction_name");
 			GroupsRelatedData.AddTable("Groups", "group_id,group_name,direction");
@@ -57,6 +65,10 @@ namespace AcademyDataSet
 		[DllImport("kernel32.dll")]
 		public static extern bool FreeConsole();
 
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			UpdateTimer();
+		}
 	}
 }
 
