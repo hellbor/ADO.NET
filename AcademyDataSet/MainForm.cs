@@ -23,13 +23,13 @@ namespace AcademyDataSet
 			InitializeComponent();
 			AllocConsole();
 
-			UpdateTimer();
+			RefreshTimer();
 
 			timer1.Interval = 5000; // 5 секунд
 			timer1.Tick += timer1_Tick;
 			timer1.Start();
 		}
-		void UpdateTimer()
+		void RefreshTimer()
 		{
 			GroupsRelatedData = new Cache();
 			GroupsRelatedData.AddTable("Directions", "direction_id,direction_name");
@@ -67,7 +67,7 @@ namespace AcademyDataSet
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
-			UpdateTimer();
+			RefreshTimer();
 		}
 	}
 }
