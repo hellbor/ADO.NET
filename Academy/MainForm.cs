@@ -22,6 +22,8 @@ namespace Academy
 		public Dictionary<string, int> d_directions;
 		public Dictionary<string, int> d_groups;
 
+		public Dictionary<ComboBox, List<ComboBox>> d_dependencies;
+
 		DataGridView[] tables;
 		Query[] queries = new Query[]
 		{
@@ -59,6 +61,11 @@ namespace Academy
 		public MainForm()
 		{
 			InitializeComponent();
+
+			d_dependencies = new Dictionary<ComboBox, List<ComboBox>>()
+			{
+				{ cbStudentsDirection, new List<ComboBox>(){ cbStudentsGroup } }
+			};
 
 			tables = new DataGridView[]
 			{
@@ -108,7 +115,7 @@ namespace Academy
 		}
 		void LoadPage(int i, Query query = null)
 		{
-			if(query==null)query = queries[i];
+			if (query == null) query = queries[i];
 			tables[i].DataSource = connector.Select(query.Columns, query.Tables, query.Condition, query.Group_by);
 			toolStripStatusLabelCount.Text = status_messagess[i] + CountRecordsInDGV(tables[i]);
 		}
@@ -168,7 +175,7 @@ namespace Academy
 			} 
 #endif
 		}
-		
+
 		int CountRecordsInDGV(DataGridView dgv)
 		{
 			return dgv.RowCount == 0 ? 0 : dgv.Rows.Count - 1;
@@ -181,7 +188,7 @@ namespace Academy
 
 			int last_capital_index = Array.FindLastIndex<char>(cb_name.ToCharArray(), Char.IsUpper);
 			string cb_suffix = cb_name.Substring(last_capital_index);
-			Console.WriteLine (cb_name);
+			Console.WriteLine(cb_name);
 			Console.WriteLine(tab_name);
 			Console.WriteLine(cb_suffix);
 
@@ -189,10 +196,10 @@ namespace Academy
 			//Есть строка, которая хранит имя вкладки (tab),
 			//Из этой строки мы получаем имя словаря
 			string dictionary_name = $"d_{cb_suffix.ToLower()}s";
-			Console.WriteLine (dictionary_name);
-			Console.WriteLine ("\n--------------------------------------------------\n");
+			Console.WriteLine(dictionary_name);
+			Console.WriteLine("\n--------------------------------------------------\n");
 			//По имени словаря, которое хранится в строке, мы получаем сам словарь, при помощи Рефлексии:
-			Dictionary<string, int> dictionary = 
+			Dictionary<string, int> dictionary =
 				this.GetType().GetField(dictionary_name).GetValue(this) as Dictionary<string, int>;
 			//Reflection - это подход, который позволяет обратиться к переменной, когда ее имя хранится в строке.
 			///////////////////////////////////////////////////////////////////////////////////
@@ -200,23 +207,58 @@ namespace Academy
 
 			#region Filtercb__StudentsGroup
 			//Фильтруем выпадающий список групп на вкладке 'Students':
-			Dictionary<string, int> d_groups = connector.GetDictionary
-				(
-				"group_id,group_name",
-				"Groups",
-				i == 0 ? "" : $"{cb_suffix.ToLower()}={dictionary[(sender as ComboBox).SelectedItem.ToString()]}"
-				);
-			cbStudentsGroup.Items.Clear();
-			cbStudentsGroup.Items.AddRange(d_groups.Select(g => g.Key).ToArray());
+			//Dictionary<string, int> d_groups = connector.GetDictionary
+			//	(
+			//	"group_id,group_name",
+			//	"Groups",
+			//	i == 0 ? "" : $"{cb_suffix.ToLower()}={dictionary[(sender as ComboBox).SelectedItem.ToString()]}"
+			//	);
+			//cbStudentsGroup.Items.Clear();
+			//cbStudentsGroup.Items.AddRange(d_groups.Select(g => g.Key).ToArray());
+			if (d_dependencies.ContainsKey(sender as ComboBox))
+			{
+				foreach (ComboBox cb in d_dependencies[sender as ComboBox])
+				{
+					GetDependentData(cb, sender as ComboBox);
+				}
+			}
 			//------------------------------------------------------------------------------- 
 			#endregion
 
 			Query query = new Query(queries[tabControl.SelectedIndex]);
-			string condition = 
+			string condition =
 				(i == 0 || (sender as ComboBox).SelectedItem == null ? "" : $"[{cb_suffix.ToLower()}]={dictionary[$"{(sender as ComboBox).SelectedItem}"]}");
 			if (query.Condition == "") query.Condition = condition;
 			else if (condition != "") query.Condition += $" AND {condition}";
 			LoadPage(tabControl.SelectedIndex, query);
+		}
+		void GetDependentData(ComboBox dependent, ComboBox determinant)
+		{
+			Console.WriteLine("\n------------------------------------\n");
+			Console.WriteLine(dependent.Name + "\t" + determinant.Name);
+			string dependent_root =
+				dependent.Name.Substring(Array.FindLastIndex<char>(dependent.Name.ToCharArray(), Char.IsUpper));
+			string determinant_root =
+				determinant.Name.Substring(Array.FindLastIndex<char>(determinant.Name.ToCharArray(), Char.IsUpper));
+
+			Dictionary<string, int> dictionary =
+				connector.GetDictionary
+				(
+					$"{dependent_root.ToLower()}_id,{dependent_root.ToLower()}_name",
+					$"{dependent_root}s,{determinant_root}s",
+					determinant.SelectedItem == null || determinant.SelectedIndex <= 0 ? "" : $"{determinant_root.ToLower()}={determinant.SelectedIndex}"
+				);
+			foreach(KeyValuePair<string, int> d in dictionary)
+			{
+				Console.WriteLine($"{d.Value}\t{d.Key}");
+			}
+
+			dependent.Items.Clear();
+			dependent.Items.AddRange(dictionary.Select(d => d.Key).ToArray());
+
+			Console.WriteLine("Dependent:  \t" + dependent_root);
+			Console.WriteLine("Determinant:\t" + determinant_root);
+			Console.WriteLine("\n------------------------------------\n");
 		}
 	}
 }
