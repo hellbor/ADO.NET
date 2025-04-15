@@ -15,7 +15,7 @@ using System.Configuration;
 
 namespace Academy
 {
-	public partial class Main : Form
+	public partial class MainForm : Form
 	{
 		Connector connector;
 
@@ -56,7 +56,7 @@ namespace Academy
 			$"Количество дисциплин: ",
 			$"Количество преподавателей: ",
 		};
-		public Main()
+		public MainForm()
 		{
 			InitializeComponent();
 
@@ -174,7 +174,7 @@ namespace Academy
 			return dgv.RowCount == 0 ? 0 : dgv.Rows.Count - 1;
 		}
 
-		private void cbDirection_SelectedIndexChanged(object sender, EventArgs e)
+		private void ComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			string cb_name = (sender as ComboBox).Name;
 			string tab_name = tabControl.SelectedTab.Name;
@@ -213,7 +213,7 @@ namespace Academy
 
 			Query query = new Query(queries[tabControl.SelectedIndex]);
 			string condition = 
-				(i == 0 || (sender as ComboBox).SelectedItem == null ? "" : $"{cb_suffix.ToLower()}={dictionary[$"{(sender as ComboBox).SelectedItem}"]}");
+				(i == 0 || (sender as ComboBox).SelectedItem == null ? "" : $"[{cb_suffix.ToLower()}]={dictionary[$"{(sender as ComboBox).SelectedItem}"]}");
 			if (query.Condition == "") query.Condition = condition;
 			else if (condition != "") query.Condition += $" AND {condition}";
 			LoadPage(tabControl.SelectedIndex, query);
