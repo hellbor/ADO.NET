@@ -22,7 +22,8 @@ namespace Academy
 		public Dictionary<string, int> d_directions;
 		public Dictionary<string, int> d_groups;
 
-		public Dictionary<ComboBox, List<ComboBox>> d_dependencies;
+		public Dictionary<ComboBox, List<ComboBox>> d_children;
+		public Dictionary<ComboBox, List<ComboBox>> d_parents;
 
 		DataGridView[] tables;
 		Query[] queries = new Query[]
@@ -62,9 +63,13 @@ namespace Academy
 		{
 			InitializeComponent();
 
-			d_dependencies = new Dictionary<ComboBox, List<ComboBox>>()
+			d_children = new Dictionary<ComboBox, List<ComboBox>>()
 			{
 				{ cbStudentsDirection, new List<ComboBox>(){ cbStudentsGroup } }
+			};
+			d_parents = new Dictionary<ComboBox, List<ComboBox>>()
+			{
+				{ cbStudentsGroup, new List<ComboBox> { cbStudentsDirection } }
 			};
 
 			tables = new DataGridView[]
@@ -85,8 +90,6 @@ namespace Academy
 				);
 			d_directions = connector.GetDictionary("*", "Directions"); //d_ - Dictionary
 			d_groups = connector.GetDictionary("group_id,group_name", "Groups");
-			d_directions["Все направления"] = 0;
-			d_groups["Все группы"] = 0;
 			cbStudentsGroup.Items.AddRange(d_groups.Select(g => g.Key).ToArray());
 			cbGroupsDirection.Items.AddRange(d_directions.Select(d => d.Key).ToArray()); //KeyValuePair
 			cbStudentsDirection.Items.AddRange(d_directions.Select(d => d.Key).ToArray());
@@ -215,9 +218,9 @@ namespace Academy
 			//	);
 			//cbStudentsGroup.Items.Clear();
 			//cbStudentsGroup.Items.AddRange(d_groups.Select(g => g.Key).ToArray());
-			if (d_dependencies.ContainsKey(sender as ComboBox))
+			if (d_children.ContainsKey(sender as ComboBox))
 			{
-				foreach (ComboBox cb in d_dependencies[sender as ComboBox])
+				foreach (ComboBox cb in d_children[sender as ComboBox])
 				{
 					GetDependentData(cb, sender as ComboBox);
 				}
@@ -227,9 +230,31 @@ namespace Academy
 
 			Query query = new Query(queries[tabControl.SelectedIndex]);
 			string condition =
-				(i == 0 || (sender as ComboBox).SelectedItem == null ? "" : $"[{cb_suffix.ToLower()}]={dictionary[$"{(sender as ComboBox).SelectedItem}"]}");
+				(
+					i == 0 ||
+					(sender as ComboBox).SelectedItem == null ? "" :
+					$"[{cb_suffix.ToLower()}]={dictionary[$"{(sender as ComboBox).SelectedItem}"]}"
+				);
+			string parent_condition = "";
+			if (d_parents.ContainsKey(sender as ComboBox))
+			{
+				foreach (ComboBox cb in d_parents[sender as ComboBox])
+				{
+					if (cb.SelectedItem != null && cb.SelectedIndex > 0)
+					{
+						string column_name = cb.Name.Substring(Array.FindLastIndex<char>(cb.Name.ToCharArray(), Char.IsUpper));
+						string parent_dictionary_name = $"d_{column_name.ToLower()}s";
+						Dictionary<string, int> parent_dictionary = this.GetType().GetField(parent_dictionary_name).GetValue(this) as Dictionary<string, int>;
+						if (parent_condition != "") parent_condition += " AND ";
+						parent_condition += $"[{column_name}]={parent_dictionary[cb.SelectedItem.ToString()]}"; 
+					}
+				}
+			}
+
 			if (query.Condition == "") query.Condition = condition;
 			else if (condition != "") query.Condition += $" AND {condition}";
+			if (query.Condition == "") query.Condition = parent_condition;
+			else if (parent_condition != "") query.Condition += $" AND {parent_condition}";
 			LoadPage(tabControl.SelectedIndex, query);
 		}
 		void GetDependentData(ComboBox dependent, ComboBox determinant)
@@ -248,13 +273,15 @@ namespace Academy
 					$"{dependent_root}s,{determinant_root}s",
 					determinant.SelectedItem == null || determinant.SelectedIndex <= 0 ? "" : $"{determinant_root.ToLower()}={determinant.SelectedIndex}"
 				);
-			foreach(KeyValuePair<string, int> d in dictionary)
+			foreach (KeyValuePair<string, int> d in dictionary)
 			{
 				Console.WriteLine($"{d.Value}\t{d.Key}");
 			}
 
 			dependent.Items.Clear();
 			dependent.Items.AddRange(dictionary.Select(d => d.Key).ToArray());
+			dependent.Items.Insert(0, "Все группы");
+			dependent.SelectedIndex = 0;
 
 			Console.WriteLine("Dependent:  \t" + dependent_root);
 			Console.WriteLine("Determinant:\t" + determinant_root);
